@@ -15,15 +15,18 @@
     </div>
     
     <script>
-        const users = [
-            { username: "user1", pin: "1234", name: "Kovács Péter", city: "Budapest", birthdate: "1990-05-20", birthplace: "Debrecen" },
-            { username: "user2", pin: "5678", name: "Nagy Anna", city: "Szeged", birthdate: "1985-07-15", birthplace: "Pécs" }
-        ];
+        
+
+        fetch('users.json')
+            .then(response => response.json())
+            .then(data => {
+                window.users = data;
+            });
 
         function login() {
             const username = document.getElementById("username").value;
             const pin = document.getElementById("pin").value;
-            const user = users.find(u => u.username === username);
+            const user = window.users.find(u => u.username === username);
 
             if (!user) {
                 document.getElementById("message").textContent = "Nincs ilyen felhasználó!";
@@ -32,7 +35,7 @@
             } else {
                 document.body.innerHTML = `
                     <div class='container'>
-                        <h2>Üdvözöljük, ${user.name}!</h2>
+                        <h2>Üdvözöljük, ${user.lastname} ${user.firstname}!</h2>
                         <p>Lakóhely: ${user.city}</p>
                         <p>Születési dátum: ${user.birthdate}</p>
                         <p>Születési hely: ${user.birthplace}</p>
